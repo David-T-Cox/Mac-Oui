@@ -20,9 +20,11 @@ class MacAddressController extends Controller
         // Get the first 3 octets
         $firstThreeMac = substr($aplhaNumMac, 0, 6);
         //dd($firstThreeMac);
+
         // Get second character for random check
         $secondChar = substr($firstThreeMac, 1, 1);
-
+        
+        // Check if MAC is random else lookup the vendor
         if (in_array($secondChar, $randomMacs)) {
             $result[] = [
                 'mac_address' => $mac,
@@ -44,6 +46,7 @@ class MacAddressController extends Controller
         $data = json_decode($content, true);
         //dd($data);
 
+        // Check the data exists
         if (!isset($data['mac_addresses']) || empty($data['mac_addresses'])) {
             return response()->json(['error' => 'No MAC Addresses provided']);
         }
@@ -64,6 +67,7 @@ class MacAddressController extends Controller
             // Get second character for random check
             $secondChar = substr($firstThreeMac, 1, 1);
 
+            // Check if MAC is random else lookup the vendor
             if (in_array($secondChar, $randomMacs)) {
                 $result[] = [
                     'mac_address' => $macAddress,
@@ -78,18 +82,6 @@ class MacAddressController extends Controller
             
             
         }
-        //dd($convertedMacs);
-        
-       // $vendors = $this->vendorLookup($convertedMacs);
-       // dd($result);
-
-        // $result = [];
-        // foreach ($vendors as $mac => $vendor) {
-            // $result[] = [
-                // 'mac_address' => $mac,
-                // 'vendor' => $vendor
-            // ];
-        // };
         return response()->json($result);
 
 
